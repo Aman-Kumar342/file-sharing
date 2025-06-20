@@ -2,6 +2,7 @@ const express = require('express');
 const cors = require('cors');
 const connectDB = require('./src/config/database');
 const authRoutes = require('./src/routes/auth');
+const userRoutes = require('./src/routes/users');
 require('dotenv').config();
 
 const app = express();
@@ -17,8 +18,9 @@ app.use(express.urlencoded({ extended: true }));
 
 // Routes
 app.use('/api/auth', authRoutes);
+app.use('/api/users', userRoutes);  // Make sure this line exists
 
-// Basic health check route
+// Health check
 app.get('/health', (req, res) => {
     res.status(200).json({
         success: true,
@@ -27,9 +29,6 @@ app.get('/health', (req, res) => {
     });
 });
 
-// Start server
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
-    console.log(`Health check: http://localhost:${PORT}/health`);
-    console.log(`Auth endpoints: http://localhost:${PORT}/api/auth`);
 });
